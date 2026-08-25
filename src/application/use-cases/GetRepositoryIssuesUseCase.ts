@@ -11,8 +11,16 @@ export class GetRepositoryIssuesUseCase {
   constructor(private readonly repository: RepositoryRepository) {}
 
   async execute(params: GetRepositoryIssuesParams): Promise<IssuePage> {
+    if (!params.id.id?.trim()) {
+      throw new InvalidParameterError(
+        'O parâmetro "id" do repositório é obrigatório.',
+      );
+    }
+
     if (!Number.isInteger(params.page) || params.page < 1) {
-      throw new InvalidParameterError('O parâmetro "page" deve ser um número inteiro maior que zero.');
+      throw new InvalidParameterError(
+        'O parâmetro "page" deve ser um número inteiro maior que zero.',
+      );
     }
 
     return this.repository.getIssues(params.id, params.page);
