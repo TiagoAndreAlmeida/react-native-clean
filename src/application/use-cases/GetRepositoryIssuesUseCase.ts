@@ -1,4 +1,5 @@
 import { IssuePage } from '@/domain/entities/Issue';
+import { InvalidParameterError } from '@/domain/erros/InvalidParameterError';
 import { RepositoryReference, RepositoryRepository } from '@/domain/repositories/RepositoryRepository';
 
 export interface GetRepositoryIssuesParams {
@@ -10,8 +11,8 @@ export class GetRepositoryIssuesUseCase {
   constructor(private readonly repository: RepositoryRepository) {}
 
   async execute(params: GetRepositoryIssuesParams): Promise<IssuePage> {
-    if (!Object.hasOwn(params, 'id') || !Object.hasOwn(params, 'page')) {
-      throw new Error('id e page do repositório é obrigatório.');
+    if (!Number.isInteger(params.page) || params.page < 1) {
+      throw new InvalidParameterError('O parâmetro "page" deve ser um número inteiro maior que zero.');
     }
 
     return this.repository.getIssues(params.id, params.page);

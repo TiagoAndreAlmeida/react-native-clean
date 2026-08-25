@@ -1,4 +1,5 @@
 import { RepositoryPage } from '@/domain/entities/Repository';
+import { InvalidParameterError } from '@/domain/erros/InvalidParameterError';
 import { RepositoryRepository } from '@/domain/repositories/RepositoryRepository';
 
 export interface SearchRepositoriesParams {
@@ -11,7 +12,7 @@ export class SearchRepositoriesUseCase {
 
   async execute(params: SearchRepositoriesParams): Promise<RepositoryPage> {
     if (!Number.isInteger(params.page) || params.page < 1) {
-        throw new Error('O parâmetro "page" deve ser um número inteiro maior que zero.');
+        throw new InvalidParameterError('O parâmetro "page" deve ser um número inteiro maior que zero.');
     }
     
     const query = params.query ? params.query.trim() : '';
