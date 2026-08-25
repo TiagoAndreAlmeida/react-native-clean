@@ -5,7 +5,10 @@ export class GetDetailsUseCase {
   constructor(private readonly repository: RepositoryRepository) {}
 
   async execute(params: RepositoryReference): Promise<Repository> {
-    if (!params.id || (!params.owner && !params.name)) {
+    const hasId = Boolean(params.id);
+    const hasOwnerAndName = Boolean(params.owner && params.name);
+
+    if (!hasId && !hasOwnerAndName) {
       throw new Error('Identificador do repositório é obrigatório.');
     }
 
