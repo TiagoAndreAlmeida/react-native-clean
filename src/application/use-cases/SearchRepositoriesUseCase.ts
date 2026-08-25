@@ -13,6 +13,9 @@ export class SearchRepositoriesUseCase {
     if (!Object.hasOwn(params, 'page')) {
       throw new Error('O parâmetro "page" é obrigatório.');
     }
-    return this.repository.search(params.query, params.page);
+    
+    const query = params.query ? params.query.trim() : '';
+
+    return this.repository.search(query, params.page);
   }
 }
