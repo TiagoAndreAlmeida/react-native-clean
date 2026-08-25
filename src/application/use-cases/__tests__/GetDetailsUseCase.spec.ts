@@ -1,4 +1,5 @@
 import { Repository } from '@/domain/entities/Repository';
+import { InvalidParameterError } from '@/domain/erros/InvalidParameterError';
 import { RepositoryReference, RepositoryRepository } from '@/domain/repositories/RepositoryRepository';
 import { GetDetailsUseCase } from '../GetDetailsUseCase';
 
@@ -18,18 +19,14 @@ describe('GetDetailsUseCase', () => {
   it('deve lançar um erro se o id do repositório não for informado nem owner ou name corretamente', async () => {
     const invalidParams = { id: '', owner: '', name: 'react-native' } as RepositoryReference;
 
-    await expect(useCase.execute(invalidParams)).rejects.toThrow(
-      'Identificador do repositório é obrigatório.'
-    );
+    await expect(useCase.execute(invalidParams)).rejects.toBeInstanceOf(InvalidParameterError);
     expect(repositoryMock.getDetails).not.toHaveBeenCalled();
   });
 
   it('deve lançar um erro se o id, owner e name não forem informados', async () => {
     const invalidParams = { id: '', owner: '', name: '' } as RepositoryReference;
 
-    await expect(useCase.execute(invalidParams)).rejects.toThrow(
-      'Identificador do repositório é obrigatório.'
-    );
+    await expect(useCase.execute(invalidParams)).rejects.toBeInstanceOf(InvalidParameterError);
     expect(repositoryMock.getDetails).not.toHaveBeenCalled();
   });
 

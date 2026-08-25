@@ -1,4 +1,5 @@
 import { RepositoryPage } from '@/domain/entities/Repository';
+import { InvalidParameterError } from '@/domain/erros/InvalidParameterError';
 import { RepositoryRepository } from '@/domain/repositories/RepositoryRepository';
 import { SearchRepositoriesUseCase } from '../SearchRepositoriesUseCase';
 
@@ -18,8 +19,22 @@ describe('SearchRepositoriesUseCase', () => {
   it('deve lançar um erro se o parâmetro page não for informado', async () => {
     await expect(
       useCase.execute({ query: 'react native' } as any)
-    ).rejects.toThrow('O parâmetro "page" é obrigatório.');
+    ).rejects.toBeInstanceOf(InvalidParameterError);
 
+    expect(repositoryMock.search).not.toHaveBeenCalled();
+  });
+
+  it('deve lançar um erro se o parâmetro page não for um número inteiro maior que zero', async () => {
+    await expect(
+      useCase.execute({ query: 'react native', page: 0 })
+    ).rejects.toBeInstanceOf(InvalidParameterError);
+    expect(repositoryMock.search).not.toHaveBeenCalled();
+  });
+
+  it('deve lançar um erro se o parâmetro page não for um número inteiro', async () => {
+    await expect(
+      useCase.execute({ query: 'react native', page: null as any })
+    ).rejects.toBeInstanceOf(InvalidParameterError);
     expect(repositoryMock.search).not.toHaveBeenCalled();
   });
 

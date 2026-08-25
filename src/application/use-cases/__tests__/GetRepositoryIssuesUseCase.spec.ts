@@ -1,4 +1,5 @@
 import { IssuePage } from '@/domain/entities/Issue';
+import { InvalidParameterError } from '@/domain/erros/InvalidParameterError';
 import { RepositoryReference, RepositoryRepository } from '@/domain/repositories/RepositoryRepository';
 import { GetRepositoryIssuesUseCase } from '../GetRepositoryIssuesUseCase';
 
@@ -17,8 +18,8 @@ describe('GetRepositoryIssuesUseCase', () => {
 
   it('deve lançar um erro se a propriedade "id" não for informada', async () => {
     await expect(
-      useCase.execute({ page: 1 } as any)
-    ).rejects.toThrow('id e page do repositório é obrigatório.');
+      useCase.execute({ page: 1, id: { id: null } } as any)
+    ).rejects.toBeInstanceOf(InvalidParameterError);
 
     expect(repositoryMock.getIssues).not.toHaveBeenCalled();
   });
@@ -26,7 +27,7 @@ describe('GetRepositoryIssuesUseCase', () => {
   it('deve lançar um erro se a propriedade "page" não for informada', async () => {
     await expect(
       useCase.execute({ id: { id: '123' } } as any)
-    ).rejects.toThrow('id e page do repositório é obrigatório.');
+    ).rejects.toBeInstanceOf(InvalidParameterError);
 
     expect(repositoryMock.getIssues).not.toHaveBeenCalled();
   });
