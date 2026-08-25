@@ -10,8 +10,8 @@ export class SearchRepositoriesUseCase {
   constructor(private readonly repository: RepositoryRepository) {}
 
   async execute(params: SearchRepositoriesParams): Promise<RepositoryPage> {
-    if (!Object.hasOwn(params, 'page')) {
-      throw new Error('O parâmetro "page" é obrigatório.');
+    if (!Number.isInteger(params.page) || params.page < 1) {
+        throw new Error('O parâmetro "page" deve ser um número inteiro maior que zero.');
     }
     
     const query = params.query ? params.query.trim() : '';
