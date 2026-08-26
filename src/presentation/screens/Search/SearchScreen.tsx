@@ -1,26 +1,25 @@
-import React, { useState } from 'react';
 import {
-  View,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '@/shared/theme';
-import {
-  Heading,
-  Text,
-  Input,
-  Card,
   Avatar,
   Badge,
   Button,
+  Card,
+  Heading,
+  Input,
+  Text,
 } from '@/presentation/components';
+import { useDataSource } from '@/presentation/providers/DataSourceProvider';
+import { useTheme } from '@/shared/theme';
+import React, { useState } from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export interface SearchScreenProps {
   onSelectRepository?: (id: string) => void;
-  activeProvider?: 'github' | 'gitlab';
-  onChangeProvider?: (provider: 'github' | 'gitlab') => void;
 }
 
 // Initial mock data to validate layout matching docs/home-page.png
@@ -68,19 +67,16 @@ const MOCK_REPOSITORIES = [
 ];
 
 export const SearchScreen: React.FC<SearchScreenProps> = ({
-  onSelectRepository,
-  activeProvider = 'github',
-  onChangeProvider,
+  onSelectRepository
 }) => {
   const { theme } = useTheme();
+  const { setDataSource, dataSource } = useDataSource();
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('react native');
-  const [provider, setProvider] = useState<'github' | 'gitlab'>(activeProvider);
-
+  
   const handleProviderToggle = () => {
-    const next = provider === 'github' ? 'gitlab' : 'github';
-    setProvider(next);
-    onChangeProvider?.(next);
+    const next = dataSource === 'github' ? 'gitlab' : 'github';
+    setDataSource(next);
   };
 
   return (
@@ -110,7 +106,7 @@ export const SearchScreen: React.FC<SearchScreenProps> = ({
           ]}
         >
           <Text size="sm" weight="semibold">
-            {provider === 'github' ? '🐙 GitHub' : '🦊 GitLab'}
+            {dataSource === 'github' ? '🐙 GitHub' : '🦊 GitLab'}
           </Text>
           <Text size="xs" color="muted">
             ▼

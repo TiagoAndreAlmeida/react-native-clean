@@ -1,4 +1,3 @@
-type DataSource = 'github' | 'gitlab';
 
 import { GetDetailsUseCase } from '@/application/use-cases/GetDetailsUseCase';
 import { GetRepositoryIssuesUseCase } from '@/application/use-cases/GetRepositoryIssuesUseCase';
@@ -7,6 +6,7 @@ import { GitHubRepository } from '@/infrastructure/github/GitHubRepository';
 import { GitLabRepository } from '@/infrastructure/gitlab/GitLabRepository';
 import { AxiosClient } from '../http/AxiosClient';
 
+export type DataSource = 'github' | 'gitlab';
 
 export function createDependencies(
   dataSource: DataSource,

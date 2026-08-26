@@ -1,8 +1,9 @@
-import React from 'react';
+import { DataSourceProvider } from '@/presentation/providers/DataSourceProvider';
+import { ThemeProvider, useTheme } from '@/shared/theme';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ThemeProvider, useTheme } from '@/shared/theme';
 
 function RootNavigation() {
   const { isDark } = useTheme();
@@ -29,7 +30,9 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
-        <RootNavigation />
+        <DataSourceProvider>
+          <RootNavigation />
+        </DataSourceProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );
