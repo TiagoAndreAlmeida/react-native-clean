@@ -16,15 +16,8 @@ describe('GetDetailsUseCase', () => {
     useCase = new GetDetailsUseCase(repositoryMock);
   });
 
-  it('deve lançar um erro se o id do repositório não for informado nem owner ou name corretamente', async () => {
-    const invalidParams = { id: '', owner: '', name: 'react-native' } as RepositoryReference;
-
-    await expect(useCase.execute(invalidParams)).rejects.toBeInstanceOf(InvalidParameterError);
-    expect(repositoryMock.getDetails).not.toHaveBeenCalled();
-  });
-
-  it('deve lançar um erro se o id, owner e name não forem informados', async () => {
-    const invalidParams = { id: '', owner: '', name: '' } as RepositoryReference;
+  it('deve lançar um erro se o fullPath do repositório não for informado', async () => {
+    const invalidParams = { fullPath: '' } as RepositoryReference;
 
     await expect(useCase.execute(invalidParams)).rejects.toBeInstanceOf(InvalidParameterError);
     expect(repositoryMock.getDetails).not.toHaveBeenCalled();
@@ -32,9 +25,7 @@ describe('GetDetailsUseCase', () => {
 
   it('deve chamar repository.getDetails com os parâmetros válidos e retornar os detalhes do repositório', async () => {
     const validParams: RepositoryReference = {
-      id: '123',
-      owner: '',
-      name: '',
+      fullPath: 'owner/name',
     };
 
     const mockRepository: Repository = {

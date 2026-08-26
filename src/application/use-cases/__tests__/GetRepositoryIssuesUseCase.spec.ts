@@ -16,9 +16,9 @@ describe('GetRepositoryIssuesUseCase', () => {
     useCase = new GetRepositoryIssuesUseCase(repositoryMock);
   });
 
-  it('deve lançar um erro se a propriedade "id" não for informada', async () => {
+  it('deve lançar um erro se a propriedade "reference" não for informada', async () => {
     await expect(
-      useCase.execute({ page: 1, id: { id: null } } as any)
+      useCase.execute({ page: 1, reference: null as any})
     ).rejects.toBeInstanceOf(InvalidParameterError);
 
     expect(repositoryMock.getIssues).not.toHaveBeenCalled();
@@ -26,14 +26,14 @@ describe('GetRepositoryIssuesUseCase', () => {
 
   it('deve lançar um erro se a propriedade "page" não for informada', async () => {
     await expect(
-      useCase.execute({ id: { id: '123' } } as any)
+      useCase.execute({ reference: { fullPath: '12333123' }, page: null as any })
     ).rejects.toBeInstanceOf(InvalidParameterError);
 
     expect(repositoryMock.getIssues).not.toHaveBeenCalled();
   });
 
   it('deve chamar repository.getIssues com os parâmetros corretos e retornar a lista de issues', async () => {
-    const mockRef: RepositoryReference = { id: '123', owner: '', name: '' };
+    const mockRef: RepositoryReference = { fullPath: 'owner/name' };
     const mockIssuePage: IssuePage = {
       items: [
         {
@@ -53,7 +53,7 @@ describe('GetRepositoryIssuesUseCase', () => {
 
     repositoryMock.getIssues.mockResolvedValueOnce(mockIssuePage);
 
-    const result = await useCase.execute({ id: mockRef, page: 1 });
+    const result = await useCase.execute({ reference: mockRef, page: 1 });
 
     expect(repositoryMock.getIssues).toHaveBeenCalledWith(mockRef, 1);
     expect(repositoryMock.getIssues).toHaveBeenCalledTimes(1);

@@ -3,7 +3,7 @@ import { InvalidParameterError } from '@/domain/erros/InvalidParameterError';
 import { RepositoryReference, RepositoryRepository } from '@/domain/repositories/RepositoryRepository';
 
 export interface GetRepositoryIssuesParams {
-  id: RepositoryReference;
+  reference: RepositoryReference;
   page: number;
 }
 
@@ -11,9 +11,9 @@ export class GetRepositoryIssuesUseCase {
   constructor(private readonly repository: RepositoryRepository) {}
 
   async execute(params: GetRepositoryIssuesParams): Promise<IssuePage> {
-    if (!params.id.id?.trim()) {
+    if (!params.reference || !params.reference.fullPath.trim()) {
       throw new InvalidParameterError(
-        'O parâmetro "id" do repositório é obrigatório.',
+        'O parâmetro "fullPath" do repositório é obrigatório.',
       );
     }
 
@@ -23,6 +23,6 @@ export class GetRepositoryIssuesUseCase {
       );
     }
 
-    return this.repository.getIssues(params.id, params.page);
+    return this.repository.getIssues(params.reference, params.page);
   }
 }

@@ -6,11 +6,9 @@ export class GetDetailsUseCase {
   constructor(private readonly repository: RepositoryRepository) {}
 
   async execute(params: RepositoryReference): Promise<Repository> {
-    const hasId = Boolean(params.id);
-    const hasOwnerAndName = Boolean(params.owner && params.name);
 
-    if (!hasId && !hasOwnerAndName) {
-      throw new InvalidParameterError('Identificador do repositório é obrigatório.');
+    if (!params.fullPath.trim()) {
+      throw new InvalidParameterError('O parâmetro fullPath do repositório é obrigatório.');
     }
 
     return this.repository.getDetails(params);
