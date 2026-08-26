@@ -70,7 +70,7 @@ export class GitHubRepository implements RepositoryRepository {
         try {
             const response =
                 await this.httpClient.get<GitHubSearchRepositoriesResponse>(
-                    `${apiConfig.github}/search/repositories`,
+                    `${apiConfig.github.baseUrl}/search/repositories`,
                     {
                         params: {
                             q: query,
@@ -94,6 +94,7 @@ export class GitHubRepository implements RepositoryRepository {
                 hasNextPage,
             );
         } catch (error) {
+            console.log('GitHubRepository.search error:', error);
             throw this.mapError(error);
         }
     }

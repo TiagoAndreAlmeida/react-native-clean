@@ -48,7 +48,7 @@ export class GitLabRepository implements RepositoryRepository {
         try {
             const response =
                 await this.httpClient.get<GitLabProjectResponse[]>(
-                    `${apiConfig.gitlab}/projects`,
+                    `${apiConfig.gitlab.baseUrl}/projects`,
                     {
                         params: {
                             search: query,
