@@ -1,5 +1,5 @@
 import { Repository } from '@/domain/entities/Repository';
-import { InvalidParameterError } from '@/domain/erros/InvalidParameterError';
+import { InvalidParameterError } from '@/domain/errors/InvalidParameterError';
 import { RepositoryReference, RepositoryRepository } from '@/domain/repositories/RepositoryRepository';
 
 export class GetDetailsUseCase {

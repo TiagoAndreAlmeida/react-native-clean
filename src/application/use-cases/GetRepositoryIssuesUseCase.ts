@@ -1,5 +1,5 @@
 import { IssuePage } from '@/domain/entities/Issue';
-import { InvalidParameterError } from '@/domain/erros/InvalidParameterError';
+import { InvalidParameterError } from '@/domain/errors/InvalidParameterError';
 import { RepositoryReference, RepositoryRepository } from '@/domain/repositories/RepositoryRepository';
 
 export interface GetRepositoryIssuesParams {

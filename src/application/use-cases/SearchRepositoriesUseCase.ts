@@ -1,5 +1,5 @@
 import { RepositoryPage } from '@/domain/entities/Repository';
-import { InvalidParameterError } from '@/domain/erros/InvalidParameterError';
+import { InvalidParameterError } from '@/domain/errors/InvalidParameterError';
 import { RepositoryRepository } from '@/domain/repositories/RepositoryRepository';
 
 export interface SearchRepositoriesParams {
