@@ -53,7 +53,7 @@ describe('GitHubRepository', () => {
       const result = await repository.search('react', 1);
 
       expect(httpClientMock.get).toHaveBeenCalledWith(
-        `${apiConfig.github}/search/repositories`,
+        `${apiConfig.github.baseUrl}/search/repositories`,
         {
           params: {
             q: 'react',
@@ -128,7 +128,7 @@ describe('GitHubRepository', () => {
       const result = await repository.getDetails({ fullPath: 'facebook/react' } as any);
 
       expect(httpClientMock.get).toHaveBeenCalledWith(
-        `${apiConfig.github}/repos/facebook/react`,
+        `${apiConfig.github.baseUrl}/repos/facebook/react`,
         {
           headers: {
             Accept: 'application/vnd.github+json',
@@ -175,7 +175,7 @@ describe('GitHubRepository', () => {
       );
 
       expect(httpClientMock.get).toHaveBeenCalledWith(
-        `${apiConfig.github}/repos/facebook/react/issues`,
+        `${apiConfig.github.baseUrl}/repos/facebook/react/issues`,
         {
           params: {
             state: 'open',

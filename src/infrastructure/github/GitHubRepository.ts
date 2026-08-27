@@ -108,7 +108,7 @@ export class GitHubRepository implements RepositoryRepository {
         try {
             const response =
                 await this.httpClient.get<GitHubRepositoryResponse>(
-                    `${apiConfig.github}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`,
+                    `${apiConfig.github.baseUrl}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`,
                     {
                         headers: DEFAULT_HEADERS,
                     },
