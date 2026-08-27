@@ -177,6 +177,7 @@ export const IssuesScreen: React.FC<
           </View>
         ) : (
           <FlatList
+            testID="issues-list"
             data={issues}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
