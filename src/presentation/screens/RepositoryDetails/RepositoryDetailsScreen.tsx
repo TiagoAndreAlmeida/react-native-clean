@@ -49,7 +49,16 @@ export const RepositoryDetailsScreen: React.FC<RepositoryDetailsScreenProps> = (
             <Avatar uri={repository?.owner?.avatarUrl} size="lg" />
             <View style={styles.titleInfo}>
               <Heading level="h3">{repository?.name}</Heading>
-              <Badge label="Repositório Público" variant="default" />
+              <Badge
+                label={repository?.language ?? 'N/A'}
+                size="sm"
+                dotColor={
+                  theme.colors.languages[
+                  repository?.language ?? ''
+                  ] ||
+                  theme.colors.languages.default
+                }
+              />
             </View>
           </View>
 
