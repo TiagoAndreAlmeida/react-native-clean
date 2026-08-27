@@ -81,7 +81,7 @@ export class GitLabRepository implements RepositoryRepository {
         try {
             const response =
                 await this.httpClient.get<GitLabProjectResponse>(
-                    `${apiConfig.gitlab}/projects/${projectPathOrId}`,
+                    `${apiConfig.gitlab.baseUrl}/projects/${projectPathOrId}`,
                     {
                         headers: DEFAULT_HEADERS,
                     },

@@ -53,7 +53,7 @@ describe('GitLabRepository', () => {
       const result = await repository.search('project-a', 1);
 
       expect(httpClientMock.get).toHaveBeenCalledWith(
-        `${apiConfig.gitlab}/projects`,
+        `${apiConfig.gitlab.baseUrl}/projects`,
         {
           params: {
             search: 'project-a',
@@ -128,7 +128,7 @@ describe('GitLabRepository', () => {
       const result = await repository.getDetails({ fullPath: 'group/project-a' } as any);
 
       expect(httpClientMock.get).toHaveBeenCalledWith(
-        `${apiConfig.gitlab}/projects/group%2Fproject-a`,
+        `${apiConfig.gitlab.baseUrl}/projects/group%2Fproject-a`,
         {
           headers: {
             Accept: 'application/json',
@@ -181,7 +181,7 @@ describe('GitLabRepository', () => {
       );
 
       expect(httpClientMock.get).toHaveBeenCalledWith(
-        `${apiConfig.gitlab}/projects/group%2Fproject-a/issues`,
+        `${apiConfig.gitlab.baseUrl}/projects/group%2Fproject-a/issues`,
         {
           params: {
             state: 'opened',
