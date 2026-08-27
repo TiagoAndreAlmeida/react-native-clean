@@ -89,6 +89,7 @@ export const SearchScreen: React.FC = () => {
       </View>
 
       <FlatList
+        testID="repository-list"
         data={repositories}
         keyExtractor={(item) => item.id}
         contentContainerStyle={[
