@@ -130,7 +130,7 @@ export class GitHubRepository implements RepositoryRepository {
         try {
             const response =
                 await this.httpClient.get<GitHubIssueResponse[]>(
-                    `${apiConfig.github}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(name)}/issues`,
+                    `${apiConfig.github.baseUrl}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(name)}/issues`,
                     {
                         params: {
                             state: 'open',

@@ -102,7 +102,7 @@ export class GitLabRepository implements RepositoryRepository {
         try {
             const response =
                 await this.httpClient.get<GitLabIssueResponse[]>(
-                    `${apiConfig.gitlab}/projects/${projectId}/issues`,
+                    `${apiConfig.gitlab.baseUrl}/projects/${projectId}/issues`,
                     {
                         params: {
                             state: 'opened',
