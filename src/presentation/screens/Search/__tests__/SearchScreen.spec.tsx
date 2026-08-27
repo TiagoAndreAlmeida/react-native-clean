@@ -151,7 +151,7 @@ describe('SearchScreen', () => {
 
         await render(<SearchScreen />);
 
-        expect(screen.getByText('Nenhum repositório encontrado.')).toBeTruthy();
+        expect(screen.getByText('Nenhum repositório encontrado')).toBeTruthy();
     });
 
     it('deve exibir mensagem de erro na lista quando isError for true e sem resultados', async () => {
@@ -164,7 +164,7 @@ describe('SearchScreen', () => {
 
         await render(<SearchScreen />);
 
-        expect(screen.getByText('Não foi possível carregar os repositórios.')).toBeTruthy();
+        expect(screen.getByText('Não foi possível carregar os repositórios')).toBeTruthy();
     });
 
     it('deve chamar fetchNextPage ao atingir o final da lista se houver próxima página', async () => {

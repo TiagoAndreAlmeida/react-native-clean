@@ -2,6 +2,8 @@ import {
   Avatar,
   Badge,
   Card,
+  EmptyState,
+  ErrorState,
   Heading,
   Input,
   Text
@@ -194,13 +196,22 @@ export const SearchScreen: React.FC = () => {
         )}
         ListEmptyComponent={
           !isPending ? (
-            <View style={{ alignItems: 'center' }}>
-              <Text color="secondary">
-                {isError
-                  ? 'Não foi possível carregar os repositórios.'
-                  : 'Nenhum repositório encontrado.'}
-              </Text>
-            </View>
+            isError ? (
+              <ErrorState
+                title="Não foi possível carregar os repositórios"
+                message={
+                  error instanceof Error
+                    ? error.message
+                    : 'Ocorreu um erro ao consultar os repositórios.'
+                }
+                onRetry={refetch}
+              />
+            ) : (
+              <EmptyState
+                title="Nenhum repositório encontrado"
+                description="Tente pesquisar por outro termo."
+              />
+            )
           ) : null
         }
         ListFooterComponent={
