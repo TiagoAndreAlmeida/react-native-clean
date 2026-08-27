@@ -8,7 +8,9 @@ import {
 } from '@/presentation/components';
 import { useSearchRepositories } from '@/presentation/hooks/useSearchRepositories';
 import { useDataSource } from '@/presentation/providers/DataSourceProvider';
+import { useSelectedRepository } from '@/presentation/providers/SelectedRepositoryProvider';
 import { useTheme } from '@/shared/theme';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   FlatList,
@@ -18,15 +20,10 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export interface SearchScreenProps {
-  onSelectRepository?: (id: string) => void;
-}
-
-export const SearchScreen: React.FC<SearchScreenProps> = ({
-  onSelectRepository
-}) => {
+export const SearchScreen: React.FC = () => {
   const { theme } = useTheme();
   const { setDataSource, dataSource } = useDataSource();
+  const { setRepository } = useSelectedRepository();
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('react native');
   const {
@@ -122,9 +119,10 @@ export const SearchScreen: React.FC<SearchScreenProps> = ({
           <Card
             variant="default"
             padding="md"
-            onPress={() =>
-              onSelectRepository?.(item.id)
-            }
+            onPress={() => {
+              setRepository(item);
+              router.push(`/repository/${encodeURIComponent(item.id)}`);
+            }}
             style={styles.card}
           >
             <View style={styles.cardHeader}>

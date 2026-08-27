@@ -9,7 +9,6 @@ export default function RepositoryDetailsRoute() {
 
   return (
     <RepositoryDetailsScreen
-      repositoryId={repositoryId}
       onNavigateToIssues={() => {
         router.push(`/repository/${encodeURIComponent(repositoryId)}/issues`);
       }}

@@ -1,22 +1,22 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Avatar, Badge, Button, Card, Heading, Text } from '@/presentation/components';
+import { useSelectedRepository } from '@/presentation/providers/SelectedRepositoryProvider';
 import { useTheme } from '@/shared/theme';
-import { Heading, Text, Card, Button, Avatar, Badge } from '@/presentation/components';
+import React from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export interface RepositoryDetailsScreenProps {
-  repositoryId: string;
   onNavigateToIssues?: () => void;
   onGoBack?: () => void;
 }
 
 export const RepositoryDetailsScreen: React.FC<RepositoryDetailsScreenProps> = ({
-  repositoryId,
   onNavigateToIssues,
   onGoBack,
 }) => {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
+  const { repository } = useSelectedRepository();
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
@@ -46,15 +46,29 @@ export const RepositoryDetailsScreen: React.FC<RepositoryDetailsScreenProps> = (
       >
         <Card variant="default" padding="lg">
           <View style={styles.ownerRow}>
-            <Avatar name={repositoryId} size="lg" />
+            <Avatar uri={repository?.owner?.avatarUrl} size="lg" />
             <View style={styles.titleInfo}>
-              <Heading level="h3">{repositoryId}</Heading>
+              <Heading level="h3">{repository?.name}</Heading>
               <Badge label="Repositório Público" variant="default" />
             </View>
           </View>
 
+          <View style={styles.metrics}>
+            <Text variant="caption" color="secondary">
+              ★ {repository?.stars}
+            </Text>
+
+            <Text variant="caption" color="secondary">
+              ⑂ {repository?.forks}
+            </Text>
+
+            <Text variant="caption" color="secondary">
+              👁 {repository?.watchers}
+            </Text>
+          </View>
+
           <Text color="secondary" style={styles.description}>
-            Estrutura da tela de detalhes preparada para integração com Use Case e Cache.
+            {repository?.description || 'Sem descrição disponível.'}
           </Text>
 
           <Button
@@ -98,9 +112,15 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   description: {
+    marginTop: 12,
     marginBottom: 20,
   },
   actionBtn: {
     marginTop: 8,
+  },
+  metrics: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
 });

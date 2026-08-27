@@ -1,4 +1,5 @@
 import { DataSourceProvider } from '@/presentation/providers/DataSourceProvider';
+import { SelectedRepositoryProvider } from '@/presentation/providers/SelectedRepositoryProvider';
 import { ThemeProvider, useTheme } from '@/shared/theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
@@ -42,7 +43,9 @@ export default function RootLayout() {
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <DataSourceProvider>
-            <RootNavigation />
+            <SelectedRepositoryProvider>
+              <RootNavigation />
+            </SelectedRepositoryProvider>
           </DataSourceProvider>
         </QueryClientProvider>
       </ThemeProvider>
