@@ -9,12 +9,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 
 function RootNavigation() {
-  const { isDark } = useTheme();
+  const { isDark, theme } = useTheme();
 
   return (
-    <>
+    <SafeAreaProvider style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <StatusBar style={isDark ? 'light' : 'dark'} />
-      <Stack screenOptions={{ headerShown: false }}>
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.colors.background } }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="repository/[id]/index"
@@ -25,7 +25,7 @@ function RootNavigation() {
           options={{ presentation: 'card', headerShown: false }}
         />
       </Stack>
-    </>
+    </SafeAreaProvider>
   );
 }
 
@@ -40,17 +40,15 @@ const queryClient = new QueryClient({
 
 export default function RootLayout() {
   return (
-    <SafeAreaProvider>
-      <ThemeProvider>
-        <QueryClientProvider client={queryClient}>
-          <DataSourceProvider>
-            <SelectedRepositoryProvider>
-              <RootNavigation />
-            </SelectedRepositoryProvider>
-          </DataSourceProvider>
-        </QueryClientProvider>
-      </ThemeProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <DataSourceProvider>
+          <SelectedRepositoryProvider>
+            <RootNavigation />
+          </SelectedRepositoryProvider>
+        </DataSourceProvider>
+      </QueryClientProvider>
       <Toast />
-    </SafeAreaProvider>
+    </ThemeProvider>
   );
 }
