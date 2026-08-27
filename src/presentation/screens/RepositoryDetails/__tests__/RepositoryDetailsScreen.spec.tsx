@@ -75,6 +75,14 @@ describe('RepositoryDetailsScreen', () => {
         ).toBeTruthy();
     });
 
+    it('deve exibir o nome do proprietário do repositório', async () => {
+        await render(
+            <RepositoryDetailsScreen onNavigateToIssues={jest.fn()} />
+        );
+
+        expect(screen.getByText('facebook/react-native')).toBeTruthy();
+    });
+
     it('deve exibir textos de fallback quando linguagem e descrição não existirem', async () => {
         mockUseSelectedRepository.mockReturnValue({
             repository: {

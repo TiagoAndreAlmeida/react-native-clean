@@ -49,18 +49,12 @@ export const RepositoryDetailsScreen: React.FC<RepositoryDetailsScreenProps> = (
             <Avatar uri={repository?.owner?.avatarUrl} size="lg" />
             <View style={styles.titleInfo}>
               <Heading level="h3">{repository?.name}</Heading>
-              <Badge
-                label={repository?.language ?? 'N/A'}
-                size="sm"
-                dotColor={
-                  theme.colors.languages[
-                  repository?.language ?? ''
-                  ] ||
-                  theme.colors.languages.default
-                }
-              />
             </View>
           </View>
+          
+          <Heading level="h4" color="secondary">
+            {repository?.fullName}
+          </Heading>
 
           <View style={styles.metrics}>
             <Text variant="caption" color="secondary">
@@ -74,6 +68,18 @@ export const RepositoryDetailsScreen: React.FC<RepositoryDetailsScreenProps> = (
             <Text variant="caption" color="secondary">
               👁 {repository?.watchers}
             </Text>
+          </View>
+          <View>
+            <Badge
+              label={repository?.language ?? 'N/A'}
+              size="sm"
+              dotColor={
+                theme.colors.languages[
+                repository?.language ?? ''
+                ] ||
+                theme.colors.languages.default
+              }
+            />
           </View>
 
           <Text color="secondary" style={styles.description}>
@@ -131,5 +137,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+    marginVertical: 8,
   },
 });
