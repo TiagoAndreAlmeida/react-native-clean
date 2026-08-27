@@ -16,7 +16,7 @@ export function useSearchRepositories({
 
   const debouncedQuery = useDebounce(
     normalizedQuery,
-    800,
+    600,
   );
 
   const queryResult = useInfiniteQuery({
