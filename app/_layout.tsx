@@ -6,6 +6,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 function RootNavigation() {
   const { isDark } = useTheme();
@@ -49,6 +50,7 @@ export default function RootLayout() {
           </DataSourceProvider>
         </QueryClientProvider>
       </ThemeProvider>
+      <Toast />
     </SafeAreaProvider>
   );
 }

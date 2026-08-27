@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { useDataSource } from '@/presentation/providers/DataSourceProvider';
+import { useDebounce } from './useDebounce';
 
 interface UseSearchRepositoriesParams {
   query: string;
@@ -13,14 +14,19 @@ export function useSearchRepositories({
 
   const normalizedQuery = query.trim();
 
+  const debouncedQuery = useDebounce(
+    normalizedQuery,
+    800,
+  );
+
   const queryResult = useInfiniteQuery({
-    queryKey: ['repositories', dataSource, normalizedQuery],
+    queryKey: ['repositories', dataSource, debouncedQuery],
 
     initialPageParam: 1,
 
     queryFn: ({ pageParam }) => {
       return dependencies.searchRepositories.execute({
-        query: normalizedQuery,
+        query: debouncedQuery,
         page: pageParam,
       });
     },
@@ -33,7 +39,7 @@ export function useSearchRepositories({
       return lastPage.page + 1;
     },
 
-    enabled: normalizedQuery.length > 0
+    enabled: debouncedQuery.length > 0
   });
 
   const repositories =
@@ -44,5 +50,6 @@ export function useSearchRepositories({
   return {
     ...queryResult,
     repositories,
+    debouncedQuery
   };
 }

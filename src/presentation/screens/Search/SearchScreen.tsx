@@ -9,14 +9,16 @@ import {
 import { useSearchRepositories } from '@/presentation/hooks/useSearchRepositories';
 import { useDataSource } from '@/presentation/providers/DataSourceProvider';
 import { useSelectedRepository } from '@/presentation/providers/SelectedRepositoryProvider';
+import { showErrorToast } from '@/presentation/utils/showErrorToast';
 import { useTheme } from '@/shared/theme';
 import { router } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -25,7 +27,7 @@ export const SearchScreen: React.FC = () => {
   const { setDataSource, dataSource } = useDataSource();
   const { setRepository } = useSelectedRepository();
   const insets = useSafeAreaInsets();
-  const [query, setQuery] = useState('react native');
+  const [query, setQuery] = useState('');
   const {
     repositories,
     isPending,
@@ -39,6 +41,12 @@ export const SearchScreen: React.FC = () => {
   } = useSearchRepositories({
     query,
   });
+
+  useEffect(() => {
+    if (isError && error) {
+      showErrorToast(error, Math.max(insets.bottom, 16) + 20);
+    }
+  }, [isError, error, insets.bottom]);
 
   const handleProviderToggle = () => {
     const next = dataSource === 'github' ? 'gitlab' : 'github';
@@ -185,7 +193,7 @@ export const SearchScreen: React.FC = () => {
         )}
         ListEmptyComponent={
           !isPending ? (
-            <View>
+            <View style={{ alignItems: 'center' }}>
               <Text color="secondary">
                 {isError
                   ? 'Não foi possível carregar os repositórios.'
@@ -194,21 +202,14 @@ export const SearchScreen: React.FC = () => {
             </View>
           ) : null
         }
+        ListFooterComponent={
+          isFetchingNextPage ? (
+            <View style={styles.listFooter}>
+              <ActivityIndicator />
+            </View>
+          ) : null
+        }
       />
-
-      {/* <ScrollView
-        contentContainerStyle={[
-          styles.scrollContent,
-          { paddingBottom: Math.max(insets.bottom, 16) + 32 },
-        ]}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.list}>
-          {MOCK_REPOSITORIES.map((repo) => (
-            
-          ))}
-        </View>
-      </ScrollView> */}
     </View>
   );
 };
@@ -274,4 +275,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
   },
+  listFooter: {
+    paddingVertical: 16,
+    alignItems: 'center',
+  }
 });
