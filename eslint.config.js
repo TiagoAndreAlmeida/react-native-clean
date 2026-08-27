@@ -8,6 +8,12 @@ module.exports = defineConfig([
     ignores: ['dist/*'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'error',
-    }
+    },
+  },
+  {
+    files: ['**/__tests__/**/*.[jt]s?(x)', '**/*.{spec,test}.[jt]s?(x)'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   },
 ]);
